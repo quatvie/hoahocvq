@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Trung Tâm Giải Bài Tập Hóa Học — Dành Riêng Bạn</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link href="[https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css](https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css)" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F766E',
+                        secondary: '#2563EB',
+                        accent: '#F59E0B',
+                        light: '#F0FDFA',
+                        dark: '#134E4A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #0F766E 0%, #2563EB 100%);
+            }
+            .card-shadow {
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <!-- Màn hình Khóa Bảo mật — Chỉ bạn mới mở được -->
+    <div id="lockScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-teal-900 to-blue-900">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl transform transition-all">
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa fa-flask text-teal-600 text-4xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">🧪 Trang Hóa Học Của Tôi</h1>
+                <p class="text-gray-500 mt-2">Chỉ có bạn mới có quyền truy cập</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">🔑 Nhập Mật Khẩu Của Bạn</label>
+                    <input type="password" id="passwordInput" placeholder="Nhập mật khẩu..." 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition">
+                </div>
+                <button onclick="checkPassword()" 
+                    class="w-full bg-gradient-to-r from-teal-600 to-blue-600 text-white py-3 rounded-lg font-medium hover:opacity-90 transition">
+                    <i class="fa fa-unlock-alt mr-2"></i> Mở Trang Web
+                </button>
+                <p id="errorMsg" class="text-red-500 text-sm text-center hidden">❌ Mật khẩu không đúng! Vui lòng thử lại.</p>
+                <p class="text-xs text-gray-400 text-center mt-4">💡 Mật khẩu mặc định: <b>hoahoc2026</b> (bạn có thể đổi sau)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nội dung chính — Chỉ hiện sau khi đăng nhập -->
+    <div id="mainContent" class="opacity-0 transition-opacity duration-500 hidden">
+        <!-- Thanh điều hướng -->
+        <header class="gradient-bg text-white py-6 shadow-lg">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa fa-flask fa-2x"></i>
+                        <div>
+                            <h1 class="text-2xl font-bold">Trung Tâm Giải Bài Tập Hóa Học</h1>
+                            <p class="text-teal-100 text-sm">Từ Cấp 2 đến Lớp 12 — Giải thích chi tiết từng bước</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm bg-white/20 px-3 py-1 rounded-full">👋 Xin chào chủ nhân!</span>
+                        <button onclick="lockScreenNow()" class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg transition">
+                            <i class="fa fa-lock"></i> Khóa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            <!-- Chọn cấp học -->
+            <section class="mb-10">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">📚 Chọn Cấp Học / Lớp</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button onclick="selectGrade('cap2')" class="grade-btn p-5 bg-white rounded-xl card-shadow hover:scale-105 transition border-t-4 border-teal-500">
+                        <i class="fa fa-graduation-cap text-teal-600 text-3xl mb-3"></i>
+                        <h3 class="font-bold text-lg">Cấp 2</h3>
+                        <p class="text-gray-500 text-sm">Lớp 6, 7, 8, 9</p>
+                    </button>
+                    <button onclick="selectGrade('lop10')" class="grade-btn p-5 bg-white rounded-xl card-shadow hover:scale-105 transition border-t-4 border-blue-500">
+                        <i class="fa fa-book text-blue-600 text-3xl mb-3"></i>
+                        <h3 class="font-bold text-lg">Lớp 10</h3>
+                        <p class="text-gray-500 text-sm">Chương trình cơ bản & nâng cao</p>
+                    </button>
+                    <button onclick="selectGrade('lop11')" class="grade-btn p-5 bg-white rounded-xl card-shadow hover:scale-105 transition border-t-4 border-amber-500">
+                        <i class="fa fa-flask text-amber-600 text-3xl mb-3"></i>
+                        <h3 class="font-bold text-lg">Lớp 11</h3>
+                        <p class="text-gray-500 text-sm">Hóa học hữu cơ & điện hóa</p>
+                    </button>
+                    <button onclick="selectGrade('lop12')" class="grade-btn p-5 bg-white rounded-xl card-shadow hover:scale-105 transition border-t-4 border-rose-500">
+                        <i class="fa fa-cubes text-rose-600 text-3xl mb-3"></i>
+                        <h3 class="font-bold text-lg">Lớp 12</h3>
+                        <p class="text-gray-500 text-sm">Tổng hợp & luyện thi THPT</p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Khu vực nhập bài tập -->
+            <section class="mb-10 bg-white rounded-2xl p-6 card-shadow">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">✍️ Nhập Bài Tập Cần Giải</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nội dung bài tập:</label>
+                        <textarea id="questionInput" rows="6" placeholder="Ví dụ: Tính phần trăm khối lượng các nguyên tố trong hợp chất H2SO4..." 
+                            class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none resize-none text-lg"></textarea>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <button onclick="solveExercise()" 
+                            class="bg-gradient-to-r from-teal-600 to-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:opacity-90 transition">
+                            <i class="fa fa-lightbulb-o mr-2"></i> Giải Bài Tập
+                        </button>
+                        <button onclick="clearAll()" 
+                            class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="fa fa-refresh mr-2"></i> Xóa Trống
+                        </button>
+                        <button onclick="saveNote()" 
+                            class="bg-amber-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-amber-600 transition">
+                            <i class="fa fa-bookmark mr-2"></i> Lưu Bài Giải
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Kết quả giải -->
+            <section id="resultSection" class="mb-10 bg-teal-50 rounded-2xl p-6 border border-teal-200 hidden">
+                <h2 class="text-xl font-bold text-teal-800 mb-4">📝 Bài Giải Chi Tiết</h2>
+                <div id="resultContent" class="prose max-w-none text-gray-800 leading-relaxed text-lg">
+                    <!-- Kết quả sẽ hiển thị ở đây -->
+                </div>
+            </section>
+
+            <!-- Bài đã lưu -->
+            <section class="mb-10">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">📖 Sổ Tay Bài Giải Đã Lưu</h2>
+                    <button onclick="clearSaved()" class="text-red-500 text-sm hover:text-red-700">
+                        <i class="fa fa-trash-o mr-1"></i> Xóa Tất Cả
+                    </button>
+                </div>
+                <div id="savedNotes" class="space-y-3">
+                    <p class="text-gray-400 italic">Chưa có bài giải nào được lưu...</p>
+                </div>
+            </section>
+
+            <!-- Thông tin & công thức nhanh -->
+            <section class="grid md:grid-cols-2 gap-6 mb-10">
+                <div class="bg-blue-50 rounded-xl p-5 border border-blue-100">
+                    <h3 class="font-bold text-blue-800 mb-3">📋 Công Thức Thường Dùng</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li>• Khối lượng mol: <b>M = m/n</b></li>
+                        <li>• Số mol: <b>n = m/M = V/22,4</b> (khí ở đktc)</li>
+                        <li>• Nồng độ mol: <b>CM = n/V(lít)</b></li>
+                        <li>• Phần trăm khối lượng: <b>%m = (mchất/mdd) × 100%</b></li>
+                        <li>• Định luật bảo toàn khối lượng: <b>mtp = msp</b></li>
+                    </ul>
+                </div>
+                <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
+                    <h3 class="font-bold text-amber-800 mb-3">💡 Hướng Dẫn Sử Dụng</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li>1. Đăng nhập bằng mật khẩu của bạn</li>
+                        <li>2. Chọn lớp/cấp học phù hợp</li>
+                        <li>3. Gõ hoặc dán nội dung bài tập vào ô</li>
+                        <li>4. Nhấn "Giải Bài Tập" để xem lời giải chi tiết</li>
+                        <li>5. Lưu lại để xem lại bất kỳ lúc nào</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-10">
+            <div class="container mx-auto px-4 text-center">
+                <p>🧪 Trang Web Giải Bài Tập Hóa Học — Duy nhất chỉ dành cho bạn</p>
+                <p class="text-sm text-gray-500 mt-2">Bảo mật bằng mật khẩu • Dữ liệu lưu chỉ trên máy này</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Mật khẩu — bạn có thể đổi dòng này thành mật khẩu riêng của mình
+        const CORRECT_PASSWORD = "hoahoc2026";
+        
+        // Kiểm tra mật khẩu
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === CORRECT_PASSWORD) {
+                document.getElementById('lockScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('lockScreen').classList.add('hidden');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                    document.getElementById('mainContent').style.opacity = '1';
+                }, 300);
+            } else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        // Khóa màn hình
+        function lockScreenNow() {
+            document.getElementById('mainContent').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('mainContent').classList.add('hidden');
+                document.getElementById('lockScreen').classList.remove('hidden');
+                document.getElementById('lockScreen').style.opacity = '1';
+                document.getElementById('errorMsg').classList.add('hidden');
+                document.getElementById('passwordInput').value = '';
+            }, 300);
+        }
+
+        // Chọn lớp
+        function selectGrade(grade) {
+            const names = {
+                cap2: 'Cấp 2 (Lớp 6-9)',
+                lop10: 'Lớp 10',
+                lop11: 'Lớp 11',
+                lop12: 'Lớp 12'
+            };
+            document.getElementById('questionInput').placeholder = `[${names[grade]}] Nhập bài tập hóa học của bạn ở đây...`;
+        }
+
+        // Giải bài tập — mô phỏng hệ thống giải chi tiết
+        function solveExercise() {
+            const question = document.getElementById('questionInput').value.trim();
+            if (!question) {
+                alert("⚠️ Vui lòng nhập nội dung bài tập cần giải!");
+                return;
+            }
+
+            const resultSection = document.getElementById('resultSection');
+            const resultContent = document.getElementById('resultContent');
+            
+            // Hiển thị trạng thái đang xử lý
+            resultSection.classList.remove('hidden');
+            resultContent.innerHTML = `<p class="text-teal-600"><i class="fa fa-spinner fa-spin"></i> Đang phân tích và giải bài tập cho bạn...</p>`;
+            
+            // Mô phỏng thời gian xử lý
+            setTimeout(() => {
+                resultContent.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg border-l-4 border-teal-500">
+                            <p class="font-bold text-lg">📌 Đề bài:</p>
+                            <p class="italic">"${question}"</p>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="font-bold text-blue-800">📝 Bài giải chi tiết:</p>
+                            <div class="mt-2 space-y-2">
+                                <p><b>Bước 1:</b> Xác định dạng bài và các dữ liệu đã cho</p>
+                                <p><b
+```
